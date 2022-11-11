@@ -1,6 +1,7 @@
 import Hello from './Hello';
 import Count from './Count';
 import Wrapper from './Wrapper';
+import InputSample from './InputSample';
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
         <Wrapper>
           <Hello name={"hy"}/>
           <Count/>
+          <InputSample/>
         </Wrapper>
       </header>
     </div>
