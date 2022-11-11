@@ -1,4 +1,5 @@
 import Hello from './Hello';
+import Count from './Count';
 import Wrapper from './Wrapper';
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
       <header className="App-header">
         <Wrapper>
           <Hello name={"hy"}/>
+          <Count/>
         </Wrapper>
       </header>
     </div>
