@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 function UserList({users, onRemove, onToggle}){
   function User ({user, onRemove}) {
     return (
-      <div key={user.id} onClick={() => onToggle(user.id)}>
+      <div key={user.id}>
         <span 
           style={{
             cursor: 'pointer',
             color: user.active ? 'green' : 'black'
           }}
+          onClick={() => onToggle(user.id)}
           >
-            {user.username} ({user.email})
+            {user.username} 
         </span>
+        ({user.email})
         <button onClick={() => onRemove(user.id)}>DELETE</button>
       </div>
     )
@@ -19,7 +21,14 @@ function UserList({users, onRemove, onToggle}){
 
   return (
   <>
-    {users.map((user) => <User key={user.id} user={user} onRemove={onRemove} onToggle={onToggle}/>)}
+    {users.map(user => (
+      <User
+        user={user}
+        key={user.id}
+        onRemove={onRemove}
+        onToggle={onToggle}
+      />
+    ))}
   </>)
 }
 export default UserList
