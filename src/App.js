@@ -1,10 +1,15 @@
-import React, {useRef, useState} from "react";
+import React, { useRef, useState, useMemo } from "react";
 import Hello from './Hello';
 import Count from './Count';
 import Wrapper from './Wrapper';
 import InputSample from './InputSample';
 import UserList from './UserList';
 import CreateUser from "./CreateUser";
+
+function countActiveUsers(users) {
+  console.log('활성 사용자 수를 세는 중...')
+  return users.filter(user => user.active).length
+}
 
 function App() {
   const usersArr = [
@@ -66,6 +71,9 @@ function App() {
     );
   };
 
+  const count = useMemo(() => countActiveUsers(users), [users])
+  // Memo 는 "memoized" 를 의미하는데, 이는 이전에 계산 한 값을 재사용한다는 의미를 가지고 있다.
+  
   return (
     <div className="App">
       <header className="App-header">
@@ -80,6 +88,7 @@ function App() {
             onChange={onChange}
             onCreate={onCreate}
           />
+          <div>활성 사용자 수: {count}</div>
         </Wrapper>
       </header>
     </div>
