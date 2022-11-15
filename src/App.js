@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo, useReducer, useCallback } from "react";
+import React, { useMemo, useReducer, useCallback } from "react";
 import Hello from './Hello';
 import Count from './Count';
 import Wrapper from './Wrapper';
@@ -67,14 +67,14 @@ function reducer(state, action) {
   }
 }
 
+export const UserDispatch = React.createContext(null)
+
 function App() {
-  
-
   const [state, dispatch] = useReducer(reducer, initialState)
-
   const { users } = state
   const { username, email } = state.inputs;
-  const nextId = useRef(4);
+  
+  
   const onChange = useCallback(e => {
     const { name, value } = e.target;
     dispatch({
@@ -84,17 +84,7 @@ function App() {
     })
   }, []);
   
-  const onCreate = useCallback(() => {
-    dispatch({
-      type: 'CREATE_USER',
-      users: {
-        id: nextId.current,
-        username,
-        email
-      }
-    })
-    nextId.current += 1;
-  }, [username, email]);
+  
 
   const onRemove = useCallback(id => {
     // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
@@ -121,15 +111,16 @@ function App() {
           <Hello name={"hy"}/>
           <Count/>
           <InputSample/>
+        </Wrapper>
+
+        <UserDispatch.Provider value={dispatch}>
           <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
           <CreateUser
             username={username}
             email={email}
-            onChange={onChange}
-            onCreate={onCreate}
           />
           <div>활성 사용자 수: {count}</div>
-        </Wrapper>
+        </UserDispatch.Provider>
       </header>
     </div>
   );
