@@ -1,24 +1,24 @@
-import React, { useEffect } from "react";
+import React from "react";
+
+const User = React.memo(function({user, onRemove, onToggle}) {
+  return (
+    <div key={user.id}>
+      <span 
+        style={{
+          cursor: 'pointer',
+          color: user.active ? 'green' : 'black'
+        }}
+        onClick={() => onToggle(user.id)}
+        >
+          {user.username} 
+      </span>
+      ({user.email})
+      <button onClick={() => onRemove(user.id)}>DELETE</button>
+    </div>
+  )
+})
 
 function UserList({users, onRemove, onToggle}){
-  function User ({user, onRemove}) {
-    return (
-      <div key={user.id}>
-        <span 
-          style={{
-            cursor: 'pointer',
-            color: user.active ? 'green' : 'black'
-          }}
-          onClick={() => onToggle(user.id)}
-          >
-            {user.username} 
-        </span>
-        ({user.email})
-        <button onClick={() => onRemove(user.id)}>DELETE</button>
-      </div>
-    )
-  }
-
   return (
   <>
     {users.map(user => (
@@ -31,4 +31,4 @@ function UserList({users, onRemove, onToggle}){
     ))}
   </>)
 }
-export default UserList
+export default React.memo(UserList)
