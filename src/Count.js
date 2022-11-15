@@ -1,4 +1,4 @@
-import React, { useReducer} from "react";
+import React, { useReducer, Component } from "react";
 
 // userReducer :
 // reducer 는 현재 상태와 액션 객체를 파라미터로 받아와서 새로운 상태를 반환해주는 함수입니다.
@@ -27,16 +27,42 @@ function reducer(state, action) {
   }
 }
 
-function Count(){
-  const [count, dispatch] = useReducer(reducer, 0)
-  const onIncrease = () => dispatch({type: 'INCREMENT'})
-  const onDecrease = () => dispatch({type: 'DECREMENT'})
-  return (
-    <div>
-      <p>{count}</p>
-      <button onClick={onIncrease}>+1</button>
-      <button onClick={onDecrease}>-1</button>
-    </div>
-  )
+class Count extends Component{
+  constructor(props) {
+    super(props)
+    // props와 handle... 함수를 연결해주는 일반적인 방법
+    // this.handleDecrease = this.handleDecrease.bind(this)
+    // this.handleIncrease = this.handleIncrease.bind(this)
+    this.state = {
+      counter: 0,
+      fixed: 1
+    }
+  }
+  
+  handleIncrease = () => {
+    this.setState({
+      counter: this.state.counter + 1
+    })
+  }
+  handleDecrease = () => {
+    this.setState({
+      counter: this.state.counter - 1
+    })
+  }
+
+  render() {
+    // const [count, dispatch] = useReducer(reducer, 0)
+    // const onIncrease = () => dispatch({type: 'INCREMENT'})
+    // const onDecrease = () => dispatch({type: 'DECREMENT'})
+    
+    return (
+      <div>
+        <p>{this.state.counter}</p>
+        <p>{this.state.fixed}</p>
+        <button onClick={this.handleIncrease}>+1</button>
+        <button onClick={this.handleDecrease}>-1</button>
+      </div>
+    )
+  }
 }
 export default Count

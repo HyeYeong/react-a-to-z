@@ -1,14 +1,10 @@
-import React, { useMemo, useState, useReducer, useCallback } from "react";
+import React, { useMemo, useReducer, useCallback } from "react";
 import Hello from './Hello';
 import Count from './Count';
 import Wrapper from './Wrapper';
 import InputSample from './InputSample';
 import UserList from './UserList';
 import CreateUser from "./CreateUser";
-import produce from 'immer';
-// 상태를 업데이트 할 때, 불변성을 신경쓰지 않으면서 업데이트를 해 주면 immer가 불변성 관리를 대신 해줌 
-// produce 함수를 사용 할 때에는 첫번째 파라미터에는 수정하고 싶은 상태, 두번째 파라미터에는 어떻게 업데이트하고 싶을지 정의하는 함수를 넣어줍니다.
-
 function countActiveUsers(users) {
   console.log('활성 사용자 수를 세는 중...')
   return users.filter(user => user.active).length
@@ -77,28 +73,6 @@ function App() {
   const { users } = state
   const { username, email } = state.inputs;
 
-  const stateEx = {
-    number: 1,
-    dontChangeMe: 2
-  }
-
-  const nextState = produce(stateEx, draft => {
-    draft.number += 10
-  })
-  // 함수형 업데이트를 하는 경우에 Immer를 사용하면 상황에 따라 더 편하게 코드 작성이 가능. 
-  console.log(nextState)
-
-  const doneTodo = useCallback(() => {
-    setTodo(produce(draft => {
-      draft.done = !draft.done
-    }))
-  }, [])
-
-  const [todo, setTodo] = useState({
-    text: 'make todo list',
-    done: false
-  })
-
   const onRemove = useCallback(id => {
     // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
     // = user.id 가 id 인 것을 제거함
@@ -125,8 +99,6 @@ function App() {
           <Count/>
           <InputSample/>
         </Wrapper>
-        {todo.text}{todo.done && " - done!"}
-        <button onClick={doneTodo}>DONE</button>
         <UserDispatch.Provider value={dispatch}>
           <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
           <CreateUser
